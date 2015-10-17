@@ -1,3 +1,3 @@
 #!/bin/bash
 
-docker build --rm=true -t linuxserver/kodi-build-box $workspace/Docker/Dockerfile
+docker build --rm=true -t linuxserver/kodi-build-box $WORKSPACE/Docker/Dockerfile
