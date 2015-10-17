@@ -1,0 +1,10 @@
+#!/bin/bash
+
+[[ ! -f /source/kodi/headless.patch ]] cp /defaults/headless"$kodi_ver".patch /source/kodi/headless.patch
+cd /source/kodi
+git checkout "$kodiCheckout"
+
+[[ "$(git apply --check headless.patch  2>&1 >/dev/null | grep -ci failed:)" -ne "0" ]] && (echo "patch failed test" && exit 1)
+
+echo "patch passed test"
+
