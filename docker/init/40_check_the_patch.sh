@@ -3,6 +3,7 @@
 . /defaults/variables.list
 
 kodi_ver="${kodi_version%.*}"
+
 cp /defaults/"$kodi_ver"/headless.patch /source/kodi/headless.patch
 
 cd /source/kodi
