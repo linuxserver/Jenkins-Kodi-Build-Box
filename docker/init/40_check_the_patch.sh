@@ -9,7 +9,9 @@ cp /defaults/patches/"$kodi_ver"/headless.patch /source/kodi/headless.patch
 cd /source/kodi
 git checkout "$kodi_checkout"
 
-[[ "$(git apply --check headless.patch  2>&1 >/dev/null | grep -ci failed:)" -ne "0" ]] && (echo "patch failed test" && exit 1)
-
+if [ "$( /sbin/setuser abc git apply --check headless.patch  2>&1 >/dev/null | grep -ci failed:)" = "0" ]; then
 echo "patch passed test"
-
+else 
+echo "patch failed test"
+exit 1
+fi

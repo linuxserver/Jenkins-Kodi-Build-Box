@@ -28,6 +28,7 @@ ruby-dev -qy && \
 gem install fpm && \
 rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
 
+ADD defaults/ /defaults/
 ADD init/ /etc/my_init.d/
 RUN chmod -v +x /etc/my_init.d/*.sh
 
