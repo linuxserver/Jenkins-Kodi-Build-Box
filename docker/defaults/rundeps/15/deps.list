@@ -1,4 +1,4 @@
-runtime_deps="-d "libaacs0 (>= 0.7.0-1)" \
+runtime_deps='-d "libaacs0 (>= 0.7.0-1)" \
 -d "libass4 (>= 0.10.1-3ubuntu1)" \
 -d "libavahi-client3 (>= 0.6.31-4ubuntu1)" \
 -d "libavahi-common-dev (>= 0.6.31-4ubuntu1)" \
@@ -35,4 +35,4 @@ runtime_deps="-d "libaacs0 (>= 0.7.0-1)" \
 -d "libxslt1.1 (>= 1.1.28-2build1)" \
 -d "libyajl2 (>= 2.0.4-4)" \
 -d "nfs-common (>= 1:1.2.8-6ubuntu1.1)" \
--d "zip (>= 3.0-8)"
+-d "zip (>= 3.0-8)'
