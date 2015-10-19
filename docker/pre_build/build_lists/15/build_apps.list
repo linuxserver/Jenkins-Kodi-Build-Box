@@ -1,11 +1,9 @@
 INPUT_APTLIST="autoconf \
 automake \
 autopoint \
-build-essential \
 cmake \
 doxygen \
 gawk \
-git-core \
 gperf \
 libass-dev \
 libavahi-client-dev \
@@ -41,10 +39,7 @@ libxrandr-dev \
 libxslt-dev \
 libyajl-dev \
 openjdk-7-jre-headless \
-python-dev \
 swig \
-unzip \
-wget \
 yasm \
 zip"
 

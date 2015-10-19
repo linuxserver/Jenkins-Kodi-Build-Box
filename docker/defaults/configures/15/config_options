@@ -20,7 +20,6 @@ config_opts="--disable-airplay \
 --disable-rsxs \
 --disable-rtmp \
 --disable-spectrum \
---disable-texturepacker \
 --disable-udev \
 --disable-vaapi \
 --disable-vdpau \

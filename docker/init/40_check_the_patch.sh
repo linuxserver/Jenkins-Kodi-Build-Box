@@ -1,7 +1,5 @@
 #!/bin/bash
 
-. /prebuilds/versions.list
-
 kodi_ver="${kodi_version%.*}"
 
 cp /defaults/patches/"$kodi_ver"/headless.patch /source/kodi/headless.patch
