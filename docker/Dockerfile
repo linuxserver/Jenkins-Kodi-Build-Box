@@ -6,7 +6,6 @@ MAINTAINER Sparklyballs <sparklyballs@linuxserver.io>
 ENV LANG=en_US.UTF-8 LANGUAGE=en_US:en LC_ALL=en_US.UTF-8
 
 ADD defaults/ /defaults/
-ADD init/ /etc/my_init.d/
 
 # Set the locale
 RUN locale-gen en_US.UTF-8
@@ -24,6 +23,7 @@ ruby-dev -qy && \
 gem install fpm && \
 rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
 
+ADD init/ /etc/my_init.d/
 RUN chmod -v +x /etc/my_init.d/*.sh
 
 VOLUME /builds
