@@ -1,8 +1,14 @@
 #!/bin/bash
 
-[[ ! -f /source/kodi/headless.patch ]] cp /defaults/headless"$kodi_ver".patch /source/kodi/headless.patch
+. /defaults/variables.list
+
+kodi_ver="${kodi_version%.*}"
+
+[[ -f /source/kodi/headless.patch ]] && rm /source/kodi/headless.patch
+
+cp /defaults/"$kodi_ver"/headless.patch /source/kodi/headless.patch
 cd /source/kodi
-git checkout "$kodiCheckout"
+git checkout "$kodi_checkout"
 
 [[ "$(git apply --check headless.patch  2>&1 >/dev/null | grep -ci failed:)" -ne "0" ]] && (echo "patch failed test" && exit 1)
 
