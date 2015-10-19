@@ -11,7 +11,10 @@ git checkout "$kodi_checkout"
 
 if [ "$( /sbin/setuser abc git apply --check headless.patch  2>&1 >/dev/null | grep -ci failed:)" = "0" ]; then
 echo "patch passed test"
-else 
+else
 echo "patch failed test"
 exit 1
 fi
+
+git apply headless.patch
+

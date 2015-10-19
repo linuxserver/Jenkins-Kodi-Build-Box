@@ -1,5 +1,4 @@
-INPUT_APTLIST="
-autoconf \
+INPUT_APTLIST="autoconf \
 automake \
 autopoint \
 build-essential \
@@ -15,6 +14,7 @@ libboost1.54-dev \
 libbz2-ocaml-dev \
 libcurl4-openssl-dev \
 libflac-dev \
+libgif-dev \
 libgle3-dev \
 libglew-dev \
 libgnutls-dev \
@@ -41,6 +41,10 @@ libxrandr-dev \
 libxslt-dev \
 libyajl-dev \
 openjdk-7-jre-headless \
+python-dev \
 swig \
+unzip \
+wget \
 yasm \
 zip"
+
