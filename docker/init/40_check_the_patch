@@ -3,10 +3,8 @@
 . /defaults/variables.list
 
 kodi_ver="${kodi_version%.*}"
-
-[[ -f /source/kodi/headless.patch ]] && rm /source/kodi/headless.patch
-
 cp /defaults/"$kodi_ver"/headless.patch /source/kodi/headless.patch
+
 cd /source/kodi
 git checkout "$kodi_checkout"
 
