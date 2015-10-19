@@ -6,6 +6,6 @@ kodi_ver="${kodi_version%.*}"
 
 cd /builds
 fpm -s dir -t deb -n kodi-headless -v "$kodi_version" -C /project \
-$runtime_deps .
+"$runtime_deps" .
 
 chown -R abc:abc /builds
