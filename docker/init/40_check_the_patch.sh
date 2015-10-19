@@ -1,6 +1,6 @@
 #!/bin/bash
 
-. /defaults/variables.list
+. /prebuilds/versions.list
 
 kodi_ver="${kodi_version%.*}"
 
