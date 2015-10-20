@@ -1,7 +1,5 @@
 #!/bin/bash
 
-kodi_ver="${kodi_version%.*}"
-
 cd /builds
 
 fpm -s dir -t deb -n kodi-headless -v "$kodi_version" -C /project \
