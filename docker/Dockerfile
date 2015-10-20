@@ -21,10 +21,8 @@ RUN kodi_ver="${kodi_version%.*}" && \
 mv /prebuilds/excludes /etc/dpkg/dpkg.cfg.d/excludes && \
 apt-get update && \ 
 apt-get install $INPUT_APTLIST -qy && \
-rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
  
 # install fpm
-RUN apt-get update && \
 apt-get install \
 ruby-dev -qy && \
 gem install fpm && \
