@@ -31,7 +31,6 @@ libsdl-ocaml-dev \
 libsmbclient-dev \
 libsqlite3-dev \
 libssh-dev \
-libssl-dev \
 libtag1-dev \
 libtiff5-dev \
 libtinyxml-dev \

@@ -1,0 +1,349 @@
+From 5053b17a1de91ff9771c30fce63e03af515e7d6b Mon Sep 17 00:00:00 2001
+From: Celed <celed+gitlab@ielf.org>
+Date: Thu, 1 Oct 2015 10:40:05 +0200
+Subject: [PATCH] Headless patch
+
+---
+ xbmc/AppParamParser.cpp             |  2 ++
+ xbmc/Application.cpp                | 60 ++++++++++++++++++++-----------------
+ xbmc/Application.h                  | 19 +++++++++---
+ xbmc/guilib/GUIDialog.cpp           |  5 ++--
+ xbmc/settings/SettingConditions.cpp |  3 ++
+ xbmc/xbmc.cpp                       |  2 +-
+ 6 files changed, 56 insertions(+), 35 deletions(-)
+
+diff --git a/xbmc/AppParamParser.cpp b/xbmc/AppParamParser.cpp
+index 14886b5..56529f4 100644
+--- a/xbmc/AppParamParser.cpp
++++ b/xbmc/AppParamParser.cpp
+@@ -139,6 +139,8 @@ void CAppParamParser::ParseArg(const std::string &arg)
+     m_testmode = true;
+   else if (arg.substr(0, 11) == "--settings=")
+     g_advancedSettings.AddSettingsFile(arg.substr(11));
++  else if (arg == "--headless")
++    g_application.SetHeadless(true);
+   else if (arg.length() != 0 && arg[0] != '-')
+   {
+     if (m_testmode)
+diff --git a/xbmc/Application.cpp b/xbmc/Application.cpp
+index bc55630..847e5cf 100644
+--- a/xbmc/Application.cpp
++++ b/xbmc/Application.cpp
+@@ -299,6 +299,7 @@ CApplication::CApplication(void)
+   m_bPlatformDirectories = true;
+ 
+   m_bStandalone = false;
++  m_headless = false;
+   m_bEnableLegacyRes = false;
+   m_bSystemScreenSaverEnable = false;
+   m_pInertialScrollingHandler = new CInertialScrollingHandler();
+@@ -446,7 +447,7 @@ bool CApplication::Create()
+   SetupNetwork();
+   Preflight();
+ 
+-  // here we register all global classes for the CApplicationMessenger, 
++  // here we register all global classes for the CApplicationMessenger,
+   // after that we can send messages to the corresponding modules
+   CApplicationMessenger::GetInstance().RegisterReceiver(this);
+   CApplicationMessenger::GetInstance().RegisterReceiver(&g_playlistPlayer);
+@@ -552,7 +553,7 @@ bool CApplication::Create()
+       CLog::Log(LOGNOTICE, "WARNING: unsupported ffmpeg version detected");
+   }
+ #endif
+-  
++
+   std::string cpuModel(g_cpuInfo.getCPUModel());
+   if (!cpuModel.empty())
+     CLog::Log(LOGNOTICE, "Host CPU: %s, %d core%s available", cpuModel.c_str(), g_cpuInfo.getCPUCount(), (g_cpuInfo.getCPUCount() == 1) ? "" : "s");
+@@ -1507,7 +1508,7 @@ bool CApplication::OnSettingUpdate(CSetting* &setting, const char *oldSettingId,
+     CSettingString *audioDevice = (CSettingString*)setting;
+     // Gotham and older didn't enumerate audio devices per stream on osx
+     // add stream0 per default which should be ok for all old settings.
+-    if (!StringUtils::EqualsNoCase(audioDevice->GetValue(), "DARWINOSX:default") && 
++    if (!StringUtils::EqualsNoCase(audioDevice->GetValue(), "DARWINOSX:default") &&
+         StringUtils::FindWords(audioDevice->GetValue().c_str(), ":stream") == std::string::npos)
+     {
+       std::string newSetting = audioDevice->GetValue();
+@@ -1871,7 +1872,7 @@ bool CApplication::RenderNoPresent()
+ //  g_graphicsContext.AcquireCurrentContext();
+ 
+   g_graphicsContext.Lock();
+-  
++
+   bool hasRendered = g_windowManager.Render();
+ 
+   g_graphicsContext.Unlock();
+@@ -2112,8 +2113,8 @@ bool CApplication::OnAction(const CAction &action)
+   if (action.IsMouse())
+     CInputManager::GetInstance().SetMouseActive(true);
+ 
+-  
+-  if (action.GetID() == ACTION_CREATE_EPISODE_BOOKMARK)   
++
++  if (action.GetID() == ACTION_CREATE_EPISODE_BOOKMARK)
+   {
+     CGUIDialogVideoBookmarks::OnAddEpisodeBookmark();
+   }
+@@ -2121,7 +2122,7 @@ bool CApplication::OnAction(const CAction &action)
+   {
+     CGUIDialogVideoBookmarks::OnAddBookmark();
+   }
+-  
++
+   // The action PLAYPAUSE behaves as ACTION_PAUSE if we are currently
+   // playing or ACTION_PLAYER_PLAY if we are seeking (FF/RW) or not playing.
+   if (action.GetID() == ACTION_PLAYER_PLAYPAUSE)
+@@ -2150,7 +2151,7 @@ bool CApplication::OnAction(const CAction &action)
+   // notify action listeners
+   if (NotifyActionListeners(action))
+     return true;
+-  
++
+   // screenshot : take a screenshot :)
+   if (action.GetID() == ACTION_TAKE_SCREENSHOT)
+   {
+@@ -2479,7 +2480,7 @@ void CApplication::OnApplicationMessage(ThreadMessage* pMsg)
+   case TMSG_QUIT:
+     Stop(EXITCODE_QUIT);
+     break;
+-  
++
+   case TMSG_SHUTDOWN:
+     HandleShutdownMessage();
+     break;
+@@ -2511,7 +2512,7 @@ void CApplication::OnApplicationMessage(ThreadMessage* pMsg)
+   case TMSG_INHIBITIDLESHUTDOWN:
+     InhibitIdleShutdown(pMsg->param1 != 0);
+     break;
+-  
++
+   case TMSG_ACTIVATESCREENSAVER:
+     ActivateScreenSaver();
+     break;
+@@ -2858,7 +2859,7 @@ bool CApplication::Cleanup()
+ #ifdef HAS_DVD_DRIVE
+     CLibcdio::ReleaseInstance();
+ #endif
+-#endif 
++#endif
+ #if defined(TARGET_ANDROID)
+     // enable for all platforms once it's safe
+     g_sectionLoader.UnloadAll();
+@@ -3146,7 +3147,7 @@ PlayBackRet CApplication::PlayStack(const CFileItem& item, bool bRestart)
+   else
+   {
+     LoadVideoSettings(item);
+-    
++
+     // see if we have the info in the database
+     // TODO: If user changes the time speed (FPS via framerate conversion stuff)
+     //       then these times will be wrong.
+@@ -3446,7 +3447,7 @@ PlayBackRet CApplication::PlayFile(const CFileItem& item, bool bRestart)
+     CSingleLock lock(m_playStateMutex);
+     // tell system we are starting a file
+     m_bPlaybackStarting = true;
+-    
++
+     // for playing a new item, previous playing item's callback may already
+     // pushed some delay message into the threadmessage list, they are not
+     // expected be processed after or during the new item playback starting.
+@@ -3768,7 +3769,7 @@ void CApplication::SaveFileState(bool bForeground /* = false */)
+       m_progressTrackingPlayCountUpdate,
+       CMediaSettings::GetInstance().GetCurrentVideoSettings(),
+       CMediaSettings::GetInstance().GetCurrentAudioSettings());
+-  
++
+   if (bForeground)
+   {
+     // Run job in the foreground to make sure it finishes
+@@ -3865,11 +3866,11 @@ void CApplication::LoadVideoSettings(const CFileItem& item)
+   if (dbs.Open())
+   {
+     CLog::Log(LOGDEBUG, "Loading settings for %s", item.GetPath().c_str());
+-    
++
+     // Load stored settings if they exist, otherwise use default
+     if (!dbs.GetVideoSettings(item, CMediaSettings::GetInstance().GetCurrentVideoSettings()))
+       CMediaSettings::GetInstance().GetCurrentVideoSettings() = CMediaSettings::GetInstance().GetDefaultVideoSettings();
+-    
++
+     dbs.Close();
+   }
+ }
+@@ -4211,7 +4212,7 @@ bool CApplication::OnMessage(CGUIMessage& message)
+ 
+       // Update our infoManager with the new details etc.
+       if (m_nextPlaylistItem >= 0)
+-      { 
++      {
+         // playing an item which is not in the list - player might be stopped already
+         // so do nothing
+         if (playList.size() <= m_nextPlaylistItem)
+@@ -4370,15 +4371,18 @@ bool CApplication::OnMessage(CGUIMessage& message)
+ 
+       if (!m_pPlayer->IsPlayingVideo())
+       {
+-        if(g_windowManager.GetActiveWindow() == WINDOW_FULLSCREEN_VIDEO)
+-        {
+-          g_windowManager.PreviousWindow();
+-        }
+-        else
++        if (!IsHeadless())
+         {
+-          CSingleLock lock(g_graphicsContext);
+-          //  resets to res_desktop or look&feel resolution (including refreshrate)
+-          g_graphicsContext.SetFullScreenVideo(false);
++          if(g_windowManager.GetActiveWindow() == WINDOW_FULLSCREEN_VIDEO)
++          {
++            g_windowManager.PreviousWindow();
++          }
++          else
++          {
++            CSingleLock lock(g_graphicsContext);
++            //  resets to res_desktop or look&feel resolution (including refreshrate)
++            g_graphicsContext.SetFullScreenVideo(false);
++          }
+         }
+       }
+ 
+@@ -4808,7 +4812,7 @@ float CApplication::GetVolume(bool percentage /* = true */) const
+     // converts the hardware volume to a percentage
+     return m_volumeLevel * 100.0f;
+   }
+-  
++
+   return m_volumeLevel;
+ }
+ 
+@@ -5253,7 +5257,7 @@ void CApplication::CloseNetworkShares()
+ #if defined(HAS_FILESYSTEM_SMB) && !defined(TARGET_WINDOWS)
+   smb.Deinit();
+ #endif
+-  
++
+ #ifdef HAS_FILESYSTEM_NFS
+   gNfsConnection.Deinit();
+ #endif
+@@ -5287,6 +5291,6 @@ bool CApplication::NotifyActionListeners(const CAction &action) const
+     if ((*it)->OnAction(action))
+       return true;
+   }
+-  
++
+   return false;
+ }
+diff --git a/xbmc/Application.h b/xbmc/Application.h
+index 6029a82..6d02f3e 100644
+--- a/xbmc/Application.h
++++ b/xbmc/Application.h
+@@ -342,6 +342,16 @@ public:
+     return m_bStandalone;
+   }
+ 
++  void SetHeadless(bool value)
++  {
++    m_headless = value;
++  }
++
++  bool IsHeadless() const
++  {
++    return m_headless;
++  }
++
+   void SetEnableLegacyRes(bool value)
+   {
+     m_bEnableLegacyRes = value;
+@@ -380,7 +390,7 @@ public:
+   ReplayGainSettings& GetReplayGainSettings() { return m_replayGainSettings; }
+ 
+   void SetLoggingIn(bool loggingIn) { m_loggingIn = loggingIn; }
+-  
++
+   /*!
+    \brief Register an action listener.
+    \param listener The listener to register
+@@ -404,7 +414,7 @@ protected:
+ 
+   bool LoadSkin(const std::string& skinID);
+   bool LoadSkin(const std::shared_ptr<ADDON::CSkinInfo>& skin);
+-  
++
+   /*!
+    \brief Delegates the action to all registered action handlers.
+    \param action The action
+@@ -468,6 +478,7 @@ protected:
+   bool m_skipGuiRender;
+ 
+   bool m_bStandalone;
++  bool m_headless;
+   bool m_bEnableLegacyRes;
+   bool m_bTestMode;
+   bool m_bSystemScreenSaverEnable;
+@@ -505,11 +516,11 @@ protected:
+ #endif
+ 
+   ReplayGainSettings m_replayGainSettings;
+-  
++
+   std::vector<IActionListener *> m_actionListeners;
+ 
+   bool m_fallbackLanguageLoaded;
+-  
++
+ private:
+   CCriticalSection                m_critSection;                 /*!< critical section for all changes to this class, except for changes to triggers */
+ };
+diff --git a/xbmc/guilib/GUIDialog.cpp b/xbmc/guilib/GUIDialog.cpp
+index 841ced0..42aa62a 100644
+--- a/xbmc/guilib/GUIDialog.cpp
++++ b/xbmc/guilib/GUIDialog.cpp
+@@ -142,7 +142,7 @@ void CGUIDialog::UpdateVisibility()
+     else
+       Close();
+   }
+-  
++
+   if (m_autoClosing)
+   { // check if our timer is running
+     if (!m_showStartTime)
+@@ -173,7 +173,8 @@ void CGUIDialog::Open_Internal(bool bProcessRenderLoop)
+   CSingleLock lock(g_graphicsContext);
+ 
+   if (!g_windowManager.Initialized() ||
+-      (m_active && !m_closing && !IsAnimating(ANIM_TYPE_WINDOW_CLOSE)))
++      (m_active && !m_closing && !IsAnimating(ANIM_TYPE_WINDOW_CLOSE)) ||
++      g_application.IsHeadless())
+     return;
+ 
+   // set running before it's added to the window manager, else the auto-show code
+diff --git a/xbmc/settings/SettingConditions.cpp b/xbmc/settings/SettingConditions.cpp
+index 2d3c02a..0847ac8 100644
+--- a/xbmc/settings/SettingConditions.cpp
++++ b/xbmc/settings/SettingConditions.cpp
+@@ -270,6 +270,9 @@ void CSettingConditions::Initialize()
+   if (g_application.IsStandAlone())
+     m_simpleConditions.insert("isstandalone");
+ 
++  if (g_application.IsHeadless())
++    m_simpleConditions.insert("is_headless");
++
+   if(CAEFactory::SupportsQualitySetting())
+     m_simpleConditions.insert("has_ae_quality_levels");
+ 
+diff --git a/xbmc/xbmc.cpp b/xbmc/xbmc.cpp
+index 366e4b5..87cb32e 100644
+--- a/xbmc/xbmc.cpp
++++ b/xbmc/xbmc.cpp
+@@ -80,7 +80,7 @@ extern "C" int XBMC_Run(bool renderGUI)
+   g_RBP.LogFirmwareVerison();
+ #endif
+ 
+-  if (renderGUI && !g_application.CreateGUI())
++  if (renderGUI && !g_application.IsHeadless() && !g_application.CreateGUI())
+   {
+     CMessagePrinter::DisplayError("ERROR: Unable to create GUI. Exiting");
+     return status;
+-- 
+2.6.0
+
+

@@ -3,8 +3,8 @@ FROM linuxserver/baseimage.python
 MAINTAINER Sparklyballs <sparklyballs@linuxserver.io>
 
 # these two values control what version this box builds
-ENV kodi_version="15.2"
-ENV kodi_checkout="15.2-Isengard"
+ENV kodi_version="16.01"
+ENV kodi_checkout="16.0a3-Jarvis"
 
 # set some environment variables
 ENV LANG=en_US.UTF-8 LANGUAGE=en_US:en LC_ALL=en_US.UTF-8
@@ -35,3 +35,5 @@ RUN chmod -v +x /etc/my_init.d/*.sh
 
 # set output volume
 VOLUME /builds
+
+

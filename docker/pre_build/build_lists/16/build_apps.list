@@ -40,5 +40,6 @@ libyajl-dev \
 openjdk-7-jre-headless \
 swig \
 yasm \
+uuid-dev \
 zip"
 
