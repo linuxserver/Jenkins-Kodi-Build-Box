@@ -3,8 +3,8 @@ FROM linuxserver/baseimage.python
 MAINTAINER Sparklyballs <sparklyballs@linuxserver.io>
 
 # these two values control what version this box builds
-ENV kodi_version="16.04"
-ENV kodi_checkout="16.0a4-Jarvis"
+ENV kodi_version="16.03"
+ENV kodi_checkout="16.0b3-Jarvis"
 
 # set some environment variables
 ENV LANG=en_US.UTF-8 LANGUAGE=en_US:en LC_ALL=en_US.UTF-8
