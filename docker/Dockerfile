@@ -1,6 +1,6 @@
 FROM linuxserver/baseimage.python
 
-MAINTAINER Sparklyballs <sparklyballs@linuxserver.io>
+MAINTAINER sparklyballs <sparklyballs@linuxserver.io>
 
 # these two values control what version this box builds
 ENV kodi_version="16.04"
