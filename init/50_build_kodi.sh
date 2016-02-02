@@ -13,7 +13,7 @@ CONFIG_OPTS+=("$line")
     done < "$1"
 }
 
-Config-Array "/defaults/configures/"$kodi_ver"/config_options"
+Config-Array "/defaults/configures/$kodi_ver/config_options"
 
 
 if [ "$kodi_ver" == "16" ]; then
