@@ -8,7 +8,7 @@ git clone https://github.com/xbmc/xbmc.git /builds/source &
 pid="$!"
 wait "$pid"
 else
-cd /builds/source
+cd /builds/source || exit
 git pull
 fi
 
