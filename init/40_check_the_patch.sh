@@ -1,6 +1,8 @@
 #!/bin/bash
 
-kodi_ver="${KODI_VERSION%.*}"
+KODI_TEMP="$KODI_VERSION"
+
+kodi_ver="${KODI_TEMP%.*}"
 
 cp /defaults/patches/"$kodi_ver"/headless.patch /source/kodi/headless.patch
 
