@@ -3,8 +3,8 @@ FROM linuxserver/baseimage.python
 MAINTAINER sparklyballs <sparklyballs@linuxserver.io>
 
 # these two values control what version this box builds
-ENV kodi_version="16.04"
-ENV kodi_checkout="16.0b4-Jarvis"
+ENV KODI_VERSION="16.04"
+ENV KODI_CHECKOUT="16.0b4-Jarvis"
 
 # set some environment variables
 ENV LANG=en_US.UTF-8 LANGUAGE=en_US:en LC_ALL=en_US.UTF-8
@@ -16,7 +16,7 @@ ADD pre_build/ /prebuilds/
 RUN locale-gen en_US.UTF-8
 
 # install build dependencies
-RUN kodi_ver="${kodi_version%.*}" && \
+RUN kodi_ver="${KODI_VERSION%.*}" && \
 . prebuilds/build_lists/"$kodi_ver"/build_apps.list && \
 mv /prebuilds/excludes /etc/dpkg/dpkg.cfg.d/excludes && \
 apt-get update && \ 
