@@ -1,4 +1,4 @@
-config_opts="--disable-airplay \
+CONFIG_OPTS="--disable-airplay \
 --disable-airtunes \
 --disable-alsa \
 --disable-asap-codec \

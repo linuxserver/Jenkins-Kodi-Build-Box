@@ -1,4 +1,4 @@
-config_opts="--enable-nfs \
+CONFIG_OPTS="--enable-nfs \
 --enable-upnp \
 --enable-ssh \
 --enable-libbluray \

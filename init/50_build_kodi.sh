@@ -23,7 +23,7 @@ fi
 cd /source/kodi || exit
 ./bootstrap
 ./configure \
-$config_opts
+$CONFIG_OPTS
 make
 make DESTDIR=/project install
 
