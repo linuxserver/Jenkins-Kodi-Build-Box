@@ -1,12 +1,12 @@
 #!/bin/bash
 
-kodi_ver="${kodi_version%.*}"
+kodi_ver="${KODI_VERSION%.*}"
 
 
-cd /builds
+cd /builds || exit
 
 if [ "$kodi_ver" == "16" ]; then
-fpm -s dir -t deb -n kodi-headless -v "$kodi_version"  -C /project \
+fpm -s dir -t deb -n kodi-headless -v "$KODI_VERSION"  -C /project \
 -d "libaacs0 (>= 0.7.0-1)" \
 -d "libass4 (>= 0.10.1-3ubuntu1)" \
 -d "libavahi-client3 (>= 0.6.31-4ubuntu1)" \
@@ -46,7 +46,7 @@ fpm -s dir -t deb -n kodi-headless -v "$kodi_version"  -C /project \
 -d "zip (>= 3.0-8)" .
 
 elif [ "$kodi_ver" == "15" ]; then
-fpm -s dir -t deb -n kodi-headless -v "$kodi_version"  -C /project \
+fpm -s dir -t deb -n kodi-headless -v "$KODI_VERSION"  -C /project \
 -d "libaacs0 (>= 0.7.0-1)" \
 -d "libass4 (>= 0.10.1-3ubuntu1)" \
 -d "libavahi-client3 (>= 0.6.31-4ubuntu1)" \
@@ -86,7 +86,7 @@ fpm -s dir -t deb -n kodi-headless -v "$kodi_version"  -C /project \
 -d "zip (>= 3.0-8)" .
 
 elif [ "$kodi_ver" == "14" ]; then
-fpm -s dir -t deb -n kodi-headless -v "$kodi_version"  -C /project \
+fpm -s dir -t deb -n kodi-headless -v "$KODI_VERSION"  -C /project \
 -d "libaacs0 (>= 0.7.0-1)" \
 -d "libass4 (>= 0.10.1-3ubuntu1)" \
 -d "libavahi-client3 (>= 0.6.31-4ubuntu1)" \
