@@ -253,15 +253,6 @@ index 6029a82..6d02f3e 100644
    void SetEnableLegacyRes(bool value)
    {
      m_bEnableLegacyRes = value;
-@@ -380,7 +390,7 @@ public:
-   ReplayGainSettings& GetReplayGainSettings() { return m_replayGainSettings; }
- 
-   void SetLoggingIn(bool loggingIn) { m_loggingIn = loggingIn; }
--  
-+
-   /*!
-    \brief Register an action listener.
-    \param listener The listener to register
 @@ -404,7 +414,7 @@ protected:
  
    bool LoadSkin(const std::string& skinID);
@@ -345,5 +336,4 @@ index 366e4b5..87cb32e 100644
      return status;
 -- 
 2.6.0
-
 
