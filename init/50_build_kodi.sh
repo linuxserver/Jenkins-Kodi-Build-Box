@@ -4,7 +4,17 @@ kodi_ver="${KODI_VERSION%.*}"
 
 mkdir -p /project
 
-. /defaults/configures/"$kodi_ver"/config_options
+
+Config-Array() {
+CONFIG_OPTS=()
+while IFS= read -r line
+do
+CONFIG_OPTS+=("$line")
+    done < "$1"
+}
+
+Config-Array "/defaults/configures/"$kodi_ver"/config_options"
+
 
 if [ "$kodi_ver" == "16" ]; then
 wget -O /tmp/libbluray.tar.bz2 ftp://ftp.videolan.org/pub/videolan/libbluray/0.9.0/libbluray-0.9.0.tar.bz2
@@ -23,7 +33,8 @@ fi
 cd /source/kodi || exit
 ./bootstrap
 ./configure \
-$CONFIG_OPTS
+"${CONFIG_OPTS[@]}"
 make
 make DESTDIR=/project install
+
 

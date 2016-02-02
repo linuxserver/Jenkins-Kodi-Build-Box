@@ -1,4 +1,4 @@
-CONFIG_OPTS="--disable-airplay \
+--disable-airplay \
 --disable-airtunes \
 --disable-alsa \
 --disable-asap-codec \
@@ -28,4 +28,5 @@ CONFIG_OPTS="--disable-airplay \
 --enable-libbluray \
 --enable-nfs \
 --enable-ssh \
---enable-upnp"
+--enable-upnp
+
