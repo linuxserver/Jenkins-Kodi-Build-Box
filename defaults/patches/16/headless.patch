@@ -54,7 +54,8 @@ index bc55630..847e5cf 100644
 +
    std::string cpuModel(g_cpuInfo.getCPUModel());
    if (!cpuModel.empty())
-     CLog::Log(LOGNOTICE, "Host CPU: %s, %d core%s available", cpuModel.c_str(), g_cpuInfo.getCPUCount(), (g_cpuInfo.getCPUCount() == 1) ? "" : "s");
+     CLog::Log(LOGNOTICE, "Host CPU: %s, %d core%s available", cpuModel.c_str(), g_cpuInfo.getCPUCount(), (g_cpuInfo.getCPUCount() == 1) ? 
+"" : "s");
 @@ -1507,7 +1508,7 @@ bool CApplication::OnSettingUpdate(CSetting* &setting, const char *oldSettingId,
      CSettingString *audioDevice = (CSettingString*)setting;
      // Gotham and older didn't enumerate audio devices per stream on osx
@@ -253,15 +254,6 @@ index 6029a82..6d02f3e 100644
    void SetEnableLegacyRes(bool value)
    {
      m_bEnableLegacyRes = value;
-@@ -380,7 +390,7 @@ public:
-   ReplayGainSettings& GetReplayGainSettings() { return m_replayGainSettings; }
- 
-   void SetLoggingIn(bool loggingIn) { m_loggingIn = loggingIn; }
--  
-+
-   /*!
-    \brief Register an action listener.
-    \param listener The listener to register
 @@ -404,7 +414,7 @@ protected:
  
    bool LoadSkin(const std::string& skinID);
@@ -291,7 +283,8 @@ index 6029a82..6d02f3e 100644
 -  
 +
  private:
-   CCriticalSection                m_critSection;                 /*!< critical section for all changes to this class, except for changes to triggers */
+   CCriticalSection                m_critSection;                 /*!< critical section for all changes to this class, except for changes 
+to triggers */
  };
 diff --git a/xbmc/guilib/GUIDialog.cpp b/xbmc/guilib/GUIDialog.cpp
 index 841ced0..42aa62a 100644
