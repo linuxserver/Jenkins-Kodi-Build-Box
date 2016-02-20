@@ -19,6 +19,7 @@ Config-Array "/defaults/configures/$kodi_ver/config_options"
 if [ "$kodi_ver" == "16" ]; then
 git clone https://github.com/vlc-mirror/libudfread /tmp/libudfread
 cd /tmp/libudfread
+./bootstrap
 ./configure
 make
 make install
