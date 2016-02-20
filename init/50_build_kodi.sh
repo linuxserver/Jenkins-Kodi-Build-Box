@@ -17,15 +17,10 @@ Config-Array "/defaults/configures/$kodi_ver/config_options"
 
 
 if [ "$kodi_ver" == "16" ]; then
-git clone https://github.com/vlc-mirror/libudfread /tmp/libudfread
-cd /tmp/libudfread
-./bootstrap
-./configure
-make
-make install
 
 git clone http://git.videolan.org/git/libbluray.git /tmp/libbluray
 cd /tmp/libbluray || exit
+git checkout c188f00496b83615dc873e8ec52f61351309377f
 ./bootstrap
 ./configure --enable-bdjava
 make
